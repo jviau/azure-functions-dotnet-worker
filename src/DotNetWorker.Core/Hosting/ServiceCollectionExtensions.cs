@@ -10,6 +10,7 @@ using Microsoft.Azure.Functions.Worker.Configuration;
 using Microsoft.Azure.Functions.Worker.Context.Features;
 using Microsoft.Azure.Functions.Worker.Converters;
 using Microsoft.Azure.Functions.Worker.Core;
+using Microsoft.Azure.Functions.Worker.Core.FunctionMetadata;
 using Microsoft.Azure.Functions.Worker.Invocation;
 using Microsoft.Azure.Functions.Worker.OutputBindings;
 using Microsoft.Azure.Functions.Worker.Pipeline;
@@ -77,6 +78,9 @@ namespace Microsoft.Extensions.DependencyInjection
                         workerOptions.Serializer = new JsonObjectSerializer(serializerOptions.Value);
                     }
                 });
+
+            // FunctionsMetadataJsonProvider
+            services.AddSingleton<IFunctionMetadataJsonProvider, SampleGenFunctionMetadtaJsonProvider>();
 
             if (configure != null)
             {

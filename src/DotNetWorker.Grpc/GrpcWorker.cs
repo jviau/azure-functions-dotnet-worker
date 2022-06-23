@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 using Azure.Core.Serialization;
 using Grpc.Core;
 using Microsoft.Azure.Functions.Worker.Context.Features;
+using Microsoft.Azure.Functions.Worker.Core.FunctionMetadata;
 using Microsoft.Azure.Functions.Worker.Grpc;
 using Microsoft.Azure.Functions.Worker.Grpc.Features;
+using Microsoft.Azure.Functions.Worker.Grpc.FunctionMetadata;
 using Microsoft.Azure.Functions.Worker.Grpc.Messages;
 using Microsoft.Azure.Functions.Worker.Invocation;
 using Microsoft.Azure.Functions.Worker.OutputBindings;
@@ -37,15 +39,14 @@ namespace Microsoft.Azure.Functions.Worker
         private readonly IMethodInfoLocator _methodInfoLocator;
         private readonly IOptions<GrpcWorkerStartupOptions> _startupOptions;
         private readonly ObjectSerializer _serializer;
-        private readonly IFunctionMetadataProvider _functionMetadataProvider;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
+        private readonly IFunctionMetadataJsonProvider _functionMetadataJsonProvider;
 
         public GrpcWorker(IFunctionsApplication application, FunctionRpcClient rpcClient, GrpcHostChannel outputChannel, IInvocationFeaturesFactory invocationFeaturesFactory,
             IOutputBindingsInfoProvider outputBindingsInfoProvider, IMethodInfoLocator methodInfoLocator, 
             IOptions<GrpcWorkerStartupOptions> startupOptions, IOptions<WorkerOptions> workerOptions,
-            IInputConversionFeatureProvider inputConversionFeatureProvider,
-            IFunctionMetadataProvider functionMetadataProvider,
-            IHostApplicationLifetime hostApplicationLifetime)
+            IHostApplicationLifetime hostApplicationLifetime,
+            IInputConversionFeatureProvider inputConversionFeatureProvider, IFunctionMetadataJsonProvider functionMetadataJsonProvider)
         {
             if (outputChannel == null)
             {
@@ -64,7 +65,7 @@ namespace Microsoft.Azure.Functions.Worker
             _startupOptions = startupOptions ?? throw new ArgumentNullException(nameof(startupOptions));
             _serializer = workerOptions.Value.Serializer ?? throw new InvalidOperationException(nameof(workerOptions.Value.Serializer));
             _inputConversionFeatureProvider = inputConversionFeatureProvider ?? throw new ArgumentNullException(nameof(inputConversionFeatureProvider));
-            _functionMetadataProvider = functionMetadataProvider ?? throw new ArgumentNullException(nameof(functionMetadataProvider));
+            _functionMetadataJsonProvider = functionMetadataJsonProvider ?? throw new ArgumentNullException(nameof(functionMetadataJsonProvider));
         }
 
         public async Task StartAsync(CancellationToken token)
@@ -272,7 +273,9 @@ namespace Microsoft.Azure.Functions.Worker
 
             try
             {
-                var functionMetadataList = await _functionMetadataProvider.GetFunctionMetadataAsync(functionAppDirectory);
+                var functionMetadataJsonList = await _functionMetadataJsonProvider.GetFunctionMetadataJsonAsync(functionAppDirectory);
+
+                var functionMetadataList = FunctionMetadataConverter.ToRpcFunctionMetadata(functionMetadataJsonList);
 
                 foreach(var func in functionMetadataList)
                 {
