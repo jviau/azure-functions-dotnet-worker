@@ -2,15 +2,19 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 using System;
+<<<<<<< HEAD
 using System.Collections.Generic;
 using System.Diagnostics;
+=======
+using System.Linq;
+>>>>>>> f30da6d (create IFunctionMetadata to create contract between source generated func metadata and rpc func metadata)
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Azure.Core.Serialization;
 using Grpc.Core;
+using Microsoft.Azure.Functions.Core;
 using Microsoft.Azure.Functions.Worker.Context.Features;
-using Microsoft.Azure.Functions.Worker.Core.FunctionMetadata;
 using Microsoft.Azure.Functions.Worker.Grpc;
 using Microsoft.Azure.Functions.Worker.Grpc.Features;
 using Microsoft.Azure.Functions.Worker.Grpc.FunctionMetadata;
@@ -40,13 +44,13 @@ namespace Microsoft.Azure.Functions.Worker
         private readonly IOptions<GrpcWorkerStartupOptions> _startupOptions;
         private readonly ObjectSerializer _serializer;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
-        private readonly IFunctionMetadataJsonProvider _functionMetadataJsonProvider;
+        private readonly IFunctionMetadataProvider _functionMetadataProvider;
 
         public GrpcWorker(IFunctionsApplication application, FunctionRpcClient rpcClient, GrpcHostChannel outputChannel, IInvocationFeaturesFactory invocationFeaturesFactory,
             IOutputBindingsInfoProvider outputBindingsInfoProvider, IMethodInfoLocator methodInfoLocator, 
             IOptions<GrpcWorkerStartupOptions> startupOptions, IOptions<WorkerOptions> workerOptions,
             IHostApplicationLifetime hostApplicationLifetime,
-            IInputConversionFeatureProvider inputConversionFeatureProvider, IFunctionMetadataJsonProvider functionMetadataJsonProvider)
+            IInputConversionFeatureProvider inputConversionFeatureProvider, IFunctionMetadataProvider functionMetadataProvider)
         {
             if (outputChannel == null)
             {
@@ -65,7 +69,7 @@ namespace Microsoft.Azure.Functions.Worker
             _startupOptions = startupOptions ?? throw new ArgumentNullException(nameof(startupOptions));
             _serializer = workerOptions.Value.Serializer ?? throw new InvalidOperationException(nameof(workerOptions.Value.Serializer));
             _inputConversionFeatureProvider = inputConversionFeatureProvider ?? throw new ArgumentNullException(nameof(inputConversionFeatureProvider));
-            _functionMetadataJsonProvider = functionMetadataJsonProvider ?? throw new ArgumentNullException(nameof(functionMetadataJsonProvider));
+            _functionMetadataProvider = functionMetadataProvider ?? throw new ArgumentNullException(nameof(functionMetadataProvider));
         }
 
         public async Task StartAsync(CancellationToken token)
@@ -273,14 +277,46 @@ namespace Microsoft.Azure.Functions.Worker
 
             try
             {
-                var functionMetadataJsonList = await _functionMetadataJsonProvider.GetFunctionMetadataJsonAsync(functionAppDirectory);
+                var functionMetadataList = await _functionMetadataProvider.GetFunctionMetadataAsync(functionAppDirectory);
 
-                var functionMetadataList = FunctionMetadataConverter.ToRpcFunctionMetadata(functionMetadataJsonList);
-
-                foreach(var func in functionMetadataList)
+                // depending on the FunctionMetadataProvider used, we may get RpcFunctionMetadata instead of a generated IFunctionMetadata object
+                if (functionMetadataList.First().GetType() == typeof(RpcFunctionMetadata))
                 {
-                    response.FunctionMetadataResults.Add(func);
+                    // simplified payload conversion since we already have the correct type
+                    foreach (var func in functionMetadataList)
+                    {
+                        RpcFunctionMetadata funcAsRpcMetadata = (RpcFunctionMetadata)func;
+                        response.FunctionMetadataResults.Add(funcAsRpcMetadata);
+                    }
                 }
+                else
+                {
+                    foreach (var func in functionMetadataList)
+                    {
+                        // create RpcFunctionMetadata
+                        var rpcFuncMetadata = new RpcFunctionMetadata
+                        {
+                            Name = func.Name,
+                            EntryPoint = func.EntryPoint,
+                            FunctionId = func.FunctionId,
+                            IsProxy = false,
+                            Language = func.Language,
+                            ScriptFile = func.ScriptFile,
+                        };
+
+                        // Add raw bindings
+                        foreach (var rawBinding in func.RawBindings)
+                        {
+                            rpcFuncMetadata.RawBindings.Add(rawBinding);
+                        }
+
+                        // add BindingInfo
+                        rpcFuncMetadata.Bindings.Add(func.GetBindingInfoList());
+
+                        response.FunctionMetadataResults.Add(rpcFuncMetadata);
+                    }
+                }
+
             }
             catch (Exception ex)
             {

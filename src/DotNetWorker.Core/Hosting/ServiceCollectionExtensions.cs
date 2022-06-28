@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using System.Text.Json;
 using Azure.Core.Serialization;
+using Microsoft.Azure.Functions.Core;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Configuration;
 using Microsoft.Azure.Functions.Worker.Context.Features;
@@ -78,9 +79,6 @@ namespace Microsoft.Extensions.DependencyInjection
                         workerOptions.Serializer = new JsonObjectSerializer(serializerOptions.Value);
                     }
                 });
-
-            // FunctionsMetadataJsonProvider
-            services.AddSingleton<IFunctionMetadataJsonProvider, SampleGenFunctionMetadtaJsonProvider>();
 
             if (configure != null)
             {
