@@ -2,12 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 using System;
-<<<<<<< HEAD
-using System.Collections.Generic;
-using System.Diagnostics;
-=======
 using System.Linq;
->>>>>>> f30da6d (create IFunctionMetadata to create contract between source generated func metadata and rpc func metadata)
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
