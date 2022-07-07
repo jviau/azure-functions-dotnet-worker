@@ -13,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using static Microsoft.Azure.Functions.Worker.Grpc.Messages.FunctionRpc;
-using Microsoft.Azure.Functions.Worker.Core.FunctionMetadata;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Azure.Functions.Core;
 
@@ -53,8 +52,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             // FunctionMetadataProvider for worker driven function-indexing
-            //services.TryAddSingleton<IFunctionMetadataProvider, DefaultFunctionMetadataProvider>();
-            services.TryAddSingleton<IFunctionMetadataProvider, SampleFunctionMetadataProvider>();
+            services.TryAddSingleton<IFunctionMetadataProvider, DefaultFunctionMetadataProvider>();
 
             // gRPC Core services
             services.AddSingleton<IWorker, GrpcWorker>();
