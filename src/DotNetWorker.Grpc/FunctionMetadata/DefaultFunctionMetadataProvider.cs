@@ -26,11 +26,6 @@ namespace Microsoft.Azure.Functions.Worker
 
         public virtual async Task<ImmutableArray<IFunctionMetadata>> GetFunctionMetadataAsync(string directory)
         {
-            return await GetRpcFunctionMetadataAsync(directory);
-        }
-
-        public virtual async Task<ImmutableArray<IFunctionMetadata>> GetRpcFunctionMetadataAsync(string directory)
-        {
             string metadataFile = Path.Combine(directory, FileName);
 
             if (!File.Exists(metadataFile))
@@ -43,7 +38,7 @@ namespace Microsoft.Azure.Functions.Worker
                 // deserialize as json element to preserve raw bindings
                 var jsonMetadataList = await JsonSerializer.DeserializeAsync<JsonElement>(fs);
 
-                var functionMetadataResults= new List<IFunctionMetadata>(jsonMetadataList.GetArrayLength());
+                var functionMetadataResults = new List<IFunctionMetadata>(jsonMetadataList.GetArrayLength());
 
                 foreach (var jsonMetadata in jsonMetadataList.EnumerateArray())
                 {
