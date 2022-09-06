@@ -5,9 +5,7 @@
     <PackageId>Microsoft.Azure.Functions.Worker.ApplicationInsights</PackageId>
     <AssemblyName>Microsoft.Azure.Functions.Worker.ApplicationInsights</AssemblyName>
     <RootNamespace>Microsoft.Azure.Functions.Worker.ApplicationInsights</RootNamespace>
-    <MajorProductVersion>1</MajorProductVersion>
-    <MinorProductVersion>0</MinorProductVersion>
-    <PatchProductVersion>0</PatchProductVersion>
+    <MajorProductVersion>2</MajorProductVersion>
     <VersionSuffix>-preview1</VersionSuffix>
   </PropertyGroup>
 
