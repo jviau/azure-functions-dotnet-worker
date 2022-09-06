@@ -120,7 +120,7 @@ namespace Microsoft.Azure.Functions.Worker
                 name = 'req',
                 type = 'HttpTrigger',
                 direction = 'In',
-                authLevel = '((AuthorizationLevel)0).ToString();',
+                authLevel = 'Anonymous',
                 methods = new List<string> { 'get','post' },
             };
             var HttpTriggerSimplereqBindingJSONstring = JsonSerializer.Serialize(HttpTriggerSimplereqBinding);
@@ -235,7 +235,7 @@ namespace Microsoft.Azure.Functions.Worker
                 name = 'req',
                 type = 'HttpTrigger',
                 direction = 'In',
-                authLevel = '((AuthorizationLevel)0).ToString();',
+                authLevel = 'Anonymous',
                 methods = new List<string> { 'get','post' },
             };
             var HttpTriggerWithMultipleOutputBindingsreqBindingJSONstring = JsonSerializer.Serialize(HttpTriggerWithMultipleOutputBindingsreqBinding);
@@ -371,7 +371,7 @@ namespace Microsoft.Azure.Functions.Worker
                 name = 'req',
                 type = 'HttpTrigger',
                 direction = 'In',
-                authLevel = '((AuthorizationLevel)0).ToString();',
+                authLevel = 'Anonymous',
                 methods = new List<string> { 'get','post' },
             };
             var HttpTriggerWithBlobInputreqBindingJSONstring = JsonSerializer.Serialize(HttpTriggerWithBlobInputreqBinding);
@@ -503,7 +503,7 @@ namespace Microsoft.Azure.Functions.Worker
                 name = 'req',
                 type = 'HttpTrigger',
                 direction = 'In',
-                authLevel = '((AuthorizationLevel)0).ToString();',
+                authLevel = 'Anonymous',
                 methods = new List<string> { 'get' },
             };
             var HttpTriggerWithBlobInputreqBindingJSONstring = JsonSerializer.Serialize(HttpTriggerWithBlobInputreqBinding);
@@ -698,7 +698,7 @@ namespace Microsoft.Azure.Functions.Worker
                 name = 'myReq',
                 type = 'HttpTrigger',
                 direction = 'In',
-                authLevel = '((AuthorizationLevel)4).ToString();',
+                authLevel = 'Anonymous',
                 methods = new List<string> { 'get','Post' },
                 Route = '/api2',
             };

@@ -113,7 +113,7 @@ namespace Microsoft.Azure.Functions.Worker.Sdk.Generators
                         dict[argumentName] = arg.Value;
                         break;
                     case TypedConstantKind.Enum:
-                        dict[argumentName] = $"((AuthorizationLevel){arg.Value}).ToString();";
+                        dict[argumentName] = $"Anonymous";
                         break;
                     case TypedConstantKind.Type:
                         break;

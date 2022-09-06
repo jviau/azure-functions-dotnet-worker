@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <FunctionsEnableWorkerIndexing>true</FunctionsEnableWorkerIndexing>
+    <!--<FunctionsEnableWorkerIndexing>true</FunctionsEnableWorkerIndexing>-->
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.13" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.0-preview1-local" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.0-preview2-local" OutputItemType="Analyzer" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\DotNetWorker\DotNetWorker.csproj" />
