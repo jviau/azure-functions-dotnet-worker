@@ -12,10 +12,10 @@ using Microsoft.Azure.Functions.Worker.Grpc.Messages;
 
 namespace Microsoft.Azure.Functions.Worker
 {
-    internal class GrpcHttpRequestData : HttpRequestData, IDisposable
-#if NET5_0_OR_GREATER
-        , IAsyncDisposable
-#endif
+    internal class GrpcHttpRequestData : HttpRequestData, IDisposable, IAsyncDisposable
+//#if NET5_0_OR_GREATER
+//        , IAsyncDisposable
+//#endif
     {
         private readonly RpcHttp _httpData;
         private Uri? _url;
@@ -178,5 +178,10 @@ namespace Microsoft.Azure.Functions.Worker
             return httpCookiesList;
         }
 
+        public ValueTask DisposeAsync()
+        {
+            Dispose();
+            return default;
+        }
     }
 }

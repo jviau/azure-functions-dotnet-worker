@@ -13,8 +13,8 @@ namespace Microsoft.Azure.Functions.Worker
 {
     internal sealed class WorkerInformation
     {
-        private static readonly Assembly _thisAssembly = typeof(WorkerInformation).Assembly;
-        private static readonly FileVersionInfo _fileVersionInfo = FileVersionInfo.GetVersionInfo(_thisAssembly.Location);
+        //private static readonly Assembly _thisAssembly = typeof(WorkerInformation).Assembly;
+        //private static readonly FileVersionInfo _fileVersionInfo = FileVersionInfo.GetVersionInfo(_thisAssembly.Location);
 
         public static WorkerInformation Instance = new();
 
@@ -28,10 +28,10 @@ namespace Microsoft.Azure.Functions.Worker
         public string RuntimeIdentifier => "n/a"; // Resolve in netstandard
 #endif
 
-        public string WorkerVersion => _thisAssembly.GetName().Version?.ToString()!;
+        public string WorkerVersion => "2.0.0-preview5"; //_thisAssembly.GetName().Version?.ToString()!;
 
 
-        public string? ProductVersion => _fileVersionInfo.ProductVersion;
+        public string? ProductVersion => string.Empty; // _fileVersionInfo.ProductVersion;
 
         public string FrameworkDescription => RuntimeInformation.FrameworkDescription;
 

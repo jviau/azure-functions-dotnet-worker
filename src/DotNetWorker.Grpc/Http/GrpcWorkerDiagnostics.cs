@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Functions.Worker.Grpc
                     EventId = nameof(OnApplicationCreated),
                     Level = RpcLog.Types.Level.Debug,
                     LogCategory = RpcLog.Types.RpcLogCategory.System,
-                    Message = JsonSerializer.Serialize(workerInfo, SerializerOptions)
+                    //Message = JsonSerializer.Serialize(workerInfo, SerializerOptions)
                 }
             };
 
