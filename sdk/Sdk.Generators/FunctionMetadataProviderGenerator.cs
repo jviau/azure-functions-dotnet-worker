@@ -510,7 +510,8 @@ namespace Microsoft.Azure.Functions.Worker.Sdk.Generators
             indentedTextWriter.Indent--;
             indentedTextWriter.WriteLine("};");
 
-            SerializeAnonymousBindingAsJsonString(indentedTextWriter, funcName, bindingName.Replace("$", ""));
+            SerializeAnonymousBindingAsJsonStringNew(indentedTextWriter, funcName, bindingName,"http","Out", "Anonymous");
+            //SerializeAnonymousBindingAsJsonString(indentedTextWriter, funcName, bindingName.Replace("$", ""));
         }
 
         /// <summary>
@@ -601,7 +602,48 @@ namespace Microsoft.Azure.Functions.Worker.Sdk.Generators
             indentedTextWriter.WriteLine("};");
 
             // Take the anonymous type representing the binding and serialize it as a JSON string
-            SerializeAnonymousBindingAsJsonString(indentedTextWriter, functionName, bindingName);
+            //SerializeAnonymousBindingAsJsonString(indentedTextWriter, functionName, bindingName);
+            SerializeAnonymousBindingAsJsonStringNew(indentedTextWriter, functionName, bindingName, bindingType, bindingDirection, "Anonymous");
+        }
+
+        private static void SerializeAnonymousBindingAsJsonStringNew(IndentedTextWriter indentedTextWriter,
+            string functionName,
+            string name,
+            string type,
+            string direction,
+            string authLevel
+            )
+        {
+
+            //var builder = new StringBuilder();
+            //builder.Append("{");
+            //builder.Append($"\'name\':\''{name}\'");
+            ////builder.Append($"\"type\":\"{type}\"");
+            ////builder.Append($"\"direction\":\"{direction}\"");
+            ////builder.Append($"\"authLevel\":\"{authLevel}\"");
+            ////builder.Append($",\"methods\":[\"get\"]");
+            //builder.Append("}");
+
+            var sts = $"{name}";
+            string builder = $"{{\\'name\\':\\'{name}\\',\\'type\\':\\'{type}\\',\\'direction\\':\\'{direction}\\',\\'authLevel\\':\\'{authLevel}\\',\\'methods\\':[\\'get\\',\\'post\\']}}";
+
+            //"{ \'name\':\''{name}'\'";
+
+            //,\'type\':\''+type+'\',\'direction\':\''+direction+'\',\'authLevel\':\''+authLevel+'\',\'methods\':[\'get\']'}";
+
+            //builder.Append($"'name':\'{name}\'");
+            //builder.Append($"\"type\":\"{type}\"");
+            //builder.Append($"\"direction\":\"{direction}\"");
+            //builder.Append($"\"authLevel\":\"{authLevel}\"");
+            //builder.Append($",\"methods\":[\"get\"]");
+            //builder.Append("}");
+
+            //var a = "{ \"name\":\"return\",\"type\":\"http\",\"direction\":\"Out\",\"authLevel\":\"Anonymous\",\"methods\":[\"get\"]}";
+
+            var bindingName = name.Replace("$", "");
+            var str = builder.ToString().Replace("'","\"");
+            indentedTextWriter.WriteLine($"var a{functionName}{bindingName} = \"{str}\";");
+           indentedTextWriter.WriteLine($"{functionName}RawBindings.Add(a{functionName}{bindingName});");
         }
 
         private static void SerializeAnonymousBindingAsJsonString(IndentedTextWriter indentedTextWriter, string functionName, string bindingName)

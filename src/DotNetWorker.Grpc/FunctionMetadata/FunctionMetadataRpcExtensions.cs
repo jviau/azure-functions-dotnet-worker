@@ -10,23 +10,23 @@ namespace Microsoft.Azure.Functions.Worker.Grpc.FunctionMetadata
     public class HttpBindingInfo
     {
         [JsonPropertyName("name")]
-        public string? Name { set; get; }
+        public string? name { set; get; }
 
         [JsonPropertyName("type")]
 
-        public string? Type { set; get; }
+        public string? type { set; get; }
 
         [JsonPropertyName("direction")]
 
-        public string? Direction { set; get; }
+        public string? direction { set; get; }
 
         [JsonPropertyName("authLevel")]
 
-        public string? AuthLevel { set; get; }
+        public string? authLevel { set; get; }
 
         [JsonPropertyName("methods")]
 
-        public string[] Methods { set; get; }
+        public string[] methods { set; get; }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true)]
@@ -57,26 +57,19 @@ namespace Microsoft.Azure.Functions.Worker.Grpc.FunctionMetadata
             };
             foreach (var bindingJson in rawBindings)
             {
-       //         var b = new HttpBindingInfo { Name = "Foo", Type = "Bar" };
-
-       //         var jsonString = JsonSerializer.Serialize(
-       // b, SourceGenerationContext.Default.HttpBindingInfo);
-
-       //         var binding23 = JsonSerializer.Deserialize<HttpBindingInfo>(
-       //jsonString, SourceGenerationContext.Default.HttpBindingInfo);
-
-                //var binding = JsonSerializer.Deserialize<JsonElement>(bindingJson);
-                //var binding = JsonSerializer.Deserialize<HttpBindingInfo>(bindingJson);
+       
                 var binding = JsonSerializer.Deserialize<HttpBindingInfo>(
     bindingJson, SourceGenerationContext.Default.HttpBindingInfo);
-                var binding2 = JsonSerializer.Deserialize(
-    bindingJson, typeof(HttpBindingInfo), SourceGenerationContext.Default)
-    as HttpBindingInfo;
+
+                if (string.IsNullOrEmpty(binding.type))
+                {
+                    throw new Exception($"Failed to Deserialize. bindingJson: {bindingJson}. funcMetadata.Name:{funcMetadata.Name}");
+                }
 
                 BindingInfo bindingInfo = CreateBindingInfoNew(binding);
                 //binding.TryGetProperty("name", out JsonElement jsonName);
                 // bindings.Add(jsonName.ToString()!, bindingInfo);
-                bindings.Add(binding.Name, bindingInfo);
+                bindings.Add(binding.name, bindingInfo);
             }
 
             return bindings;
@@ -84,14 +77,24 @@ namespace Microsoft.Azure.Functions.Worker.Grpc.FunctionMetadata
 
         internal static BindingInfo CreateBindingInfoNew(HttpBindingInfo binding)
         {
-            BindingInfo bindingInfo = new BindingInfo
+            try
             {
-                Direction = string.Equals(binding.Direction, "In", StringComparison.OrdinalIgnoreCase)
-                    ? BindingInfo.Types.Direction.In : BindingInfo.Types.Direction.Out,
-                Type = binding.Type
-            };
+                BindingInfo bindingInfo = new BindingInfo
+                {
+                    Direction = string.Equals(binding.direction, "In", StringComparison.OrdinalIgnoreCase)
+                        ? BindingInfo.Types.Direction.In : BindingInfo.Types.Direction.Out,
+                    Type = binding.type
+                };
 
-            return bindingInfo;
+                return bindingInfo;
+            }
+            catch(Exception ex)
+            {
+                var st = $"Type:{binding.type}, Direction:{binding.direction}, AuthLevel: {binding.authLevel}";
+                throw new Exception($"Error in CreateBindingInfoNew.binding:{st}", ex);
+            }
+
+
         }
         internal static BindingInfo CreateBindingInfo(JsonElement binding)
         {

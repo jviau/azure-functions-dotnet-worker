@@ -123,15 +123,15 @@ namespace Microsoft.Azure.Functions.Worker
                 authLevel = 'Anonymous',
                 methods = new List<string> { 'get','post' },
             };
-            var HttpTriggerSimplereqBindingJSONstring = JsonSerializer.Serialize(HttpTriggerSimplereqBinding);
-            HttpTriggerSimpleRawBindings.Add(HttpTriggerSimplereqBindingJSONstring);
+            var aHttpTriggerSimplereq = ""{\""name\"":\""req\"",\""type\"":\""HttpTrigger\"",\""direction\"":\""In\"",\""authLevel\"":\""Anonymous\"",\""methods\"":[\""get\"",\""post\""]}"";
+            HttpTriggerSimpleRawBindings.Add(aHttpTriggerSimplereq);
             var HttpTriggerSimplereturnBinding = new {
                 name = '$return',
                 type = 'http',
                 direction = 'Out',
             };
-            var HttpTriggerSimplereturnBindingJSONstring = JsonSerializer.Serialize(HttpTriggerSimplereturnBinding);
-            HttpTriggerSimpleRawBindings.Add(HttpTriggerSimplereturnBindingJSONstring);
+            var aHttpTriggerSimplereturn = ""{\""name\"":\""return\"",\""type\"":\""http\"",\""direction\"":\""Out\"",\""authLevel\"":\""Anonymous\"",\""methods\"":[\""get\"",\""post\""]}"";
+            HttpTriggerSimpleRawBindings.Add(aHttpTriggerSimplereturn);
             var HttpTriggerSimple = new DefaultFunctionMetadata
             {
                 FunctionId = Guid.NewGuid().ToString(),

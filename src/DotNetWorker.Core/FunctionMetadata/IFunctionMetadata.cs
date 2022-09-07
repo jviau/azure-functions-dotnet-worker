@@ -46,5 +46,6 @@ namespace Microsoft.Azure.Functions.Worker.Core.FunctionMetadata
         /// The function app assembly (ex. FunctionApp.dll).
         /// </summary>
         string? ScriptFile { get; }
+
     }
 }

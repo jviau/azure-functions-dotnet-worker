@@ -279,6 +279,11 @@ namespace Microsoft.Azure.Functions.Worker
             {
                 var functionMetadataList = await _functionMetadataProvider.GetFunctionMetadataAsync(functionAppDirectory);
 
+                //if (functionMetadataList!=null)
+                //{
+                //    throw new Exception($"metaDataProvider:{_functionMetadataProvider.GetType()}");
+                //}
+
                 foreach (var func in functionMetadataList)
                 {
                     if (func.RawBindings is null)
@@ -290,6 +295,10 @@ namespace Microsoft.Azure.Functions.Worker
                     {
                         continue;
                     }
+
+                    
+
+
                     var rpcFuncMetadata = func switch
                     {
                         RpcFunctionMetadata rpc => rpc,
