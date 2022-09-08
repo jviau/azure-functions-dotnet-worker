@@ -9,7 +9,7 @@
     <RootNamespace>Microsoft.Azure.Functions.Worker.Core</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <MajorProductVersion>2</MajorProductVersion>
-    <PatchProductVersion>1</PatchProductVersion>
+    <PatchProductVersion>4</PatchProductVersion>
     <VersionSuffix>-preview1</VersionSuffix>
     <!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
