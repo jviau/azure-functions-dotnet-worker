@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <PackageId>Microsoft.Azure.Functions.Worker.Core</PackageId>
     <Description>This library provides the core functionality to build an Azure Functions .NET Worker, adding support for the isolated, out-of-process execution model.</Description>
     <AssemblyName>Microsoft.Azure.Functions.Worker.Core</AssemblyName>
@@ -11,6 +11,7 @@
     <MajorProductVersion>2</MajorProductVersion>
     <PatchProductVersion>1</PatchProductVersion>
     <VersionSuffix>-preview1</VersionSuffix>
+    <!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
 
   <Import Project="..\..\build\Common.props" />

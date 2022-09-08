@@ -43,7 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IFunctionsApplication, FunctionsApplication>();
 
             // Execution
-            services.AddSingleton<IMethodInfoLocator, DefaultMethodInfoLocator>();
+            services.AddSingleton<IMethodInfoLocator, AOTMethodInfoLocator>();
             services.AddSingleton<IFunctionInvokerFactory, DefaultFunctionInvokerFactory>();
             services.AddSingleton<IMethodInvokerFactory, DefaultMethodInvokerFactory>();
             services.AddSingleton<IFunctionActivator, DefaultFunctionActivator>();
