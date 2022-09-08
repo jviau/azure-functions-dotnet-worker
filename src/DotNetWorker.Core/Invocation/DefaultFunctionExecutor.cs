@@ -5,10 +5,36 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker.Context.Features;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Azure.Functions.Worker.Invocation
 {
+    internal partial class AOTFunctionExecutor : IFunctionExecutor
+    {
+        public async Task ExecuteAsync(FunctionContext context)
+        {
+            var modelBindingFeature = context.Features.Get<IModelBindingFeature>();
+
+            object?[] inputArguments;
+            if (modelBindingFeature is null)
+            {
+                inputArguments = new object?[context.FunctionDefinition.Parameters.Length];
+            }
+            else
+            {
+                inputArguments = await modelBindingFeature.BindFunctionInputAsync(context);
+            }
+
+            if (inputArguments.Length > 0)
+            {
+                var req = await context.GetHttpRequestDataAsync();
+                var res = req.CreateResponse();
+                res.WriteString("Welcome to AOT Functions");
+                context.GetBindings().InvocationResult = res;
+            }
+        }
+    }
     internal partial class DefaultFunctionExecutor : IFunctionExecutor
     {
         private readonly ConcurrentDictionary<string, IFunctionInvoker> _invokerCache = new();

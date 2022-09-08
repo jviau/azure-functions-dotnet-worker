@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Functions.Worker
         public static async ValueTask<HttpRequestData?> GetHttpRequestDataAsync(this FunctionContext context)
         {
             var httpTriggerBinding = context.FunctionDefinition.InputBindings.Values
-                                            .FirstOrDefault(a => a.Type == "httpTrigger");
+                                            .FirstOrDefault(a => string.Equals(a.Type, "httpTrigger", System.StringComparison.OrdinalIgnoreCase));
 
             if (httpTriggerBinding != null)
             {

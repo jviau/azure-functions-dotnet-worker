@@ -10,6 +10,7 @@ using System.Reflection;
 using Microsoft.Azure.Functions.Worker.Grpc.Messages;
 using Microsoft.Azure.Functions.Worker.Invocation;
 using Microsoft.Azure.Functions.Worker.Converters;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace Microsoft.Azure.Functions.Worker.Definition
 {
@@ -33,11 +34,19 @@ namespace Microsoft.Azure.Functions.Worker.Definition
             OutputBindings = grpcOutputBindings?.ToImmutableDictionary(kv => kv.Key, infoToMetadataLambda)
                 ?? ImmutableDictionary<string, BindingMetadata>.Empty;
 
-            Parameters = methodInfoLocator.GetMethod(PathToAssembly, EntryPoint)
-                .GetParameters()
-                .Where(p => p.Name != null)
-                .Select(p => new FunctionParameter(p.Name!, p.ParameterType, GetAdditionalPropertiesDictionary(p)))
-                .ToImmutableArray();
+
+            var httpFunctionParams = new FunctionParameter[]
+            {
+                new FunctionParameter("req",typeof(HttpRequestData))
+            }.ToImmutableArray();
+
+            Parameters = httpFunctionParams;
+
+            //Parameters = methodInfoLocator.GetMethod(PathToAssembly, EntryPoint)
+            //    .GetParameters()
+            //    .Where(p => p.Name != null)
+            //    .Select(p => new FunctionParameter(p.Name!, p.ParameterType, GetAdditionalPropertiesDictionary(p)))
+            //    .ToImmutableArray();
         }
 
         public override string PathToAssembly { get; }

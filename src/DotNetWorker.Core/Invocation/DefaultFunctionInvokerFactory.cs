@@ -9,6 +9,14 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Functions.Worker.Invocation
 {
+    internal class AOTFunctionInvokerFactory : IFunctionInvokerFactory
+    {
+        public IFunctionInvoker Create(FunctionDefinition definition)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     internal class DefaultFunctionInvokerFactory : IFunctionInvokerFactory
     {
         private readonly IMethodInvokerFactory _methodInvokerFactory;

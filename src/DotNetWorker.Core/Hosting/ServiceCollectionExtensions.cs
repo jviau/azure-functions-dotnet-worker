@@ -47,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IFunctionInvokerFactory, DefaultFunctionInvokerFactory>();
             services.AddSingleton<IMethodInvokerFactory, DefaultMethodInvokerFactory>();
             services.AddSingleton<IFunctionActivator, DefaultFunctionActivator>();
-            services.AddSingleton<IFunctionExecutor, DefaultFunctionExecutor>();
+            services.AddSingleton<IFunctionExecutor, AOTFunctionExecutor>();
 
             // Function Execution Contexts
             services.AddSingleton<IFunctionContextFactory, DefaultFunctionContextFactory>();
