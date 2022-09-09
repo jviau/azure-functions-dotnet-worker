@@ -2,15 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <PackageId>Microsoft.Azure.Functions.Worker.Core</PackageId>
     <Description>This library provides the core functionality to build an Azure Functions .NET Worker, adding support for the isolated, out-of-process execution model.</Description>
     <AssemblyName>Microsoft.Azure.Functions.Worker.Core</AssemblyName>
     <RootNamespace>Microsoft.Azure.Functions.Worker.Core</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <MajorProductVersion>2</MajorProductVersion>
-    <PatchProductVersion>4</PatchProductVersion>
-    <VersionSuffix>-preview1</VersionSuffix>
+    <PatchProductVersion>5</PatchProductVersion>
     <!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
 
@@ -22,10 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Core" Version="1.10.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+    <PackageReference Include="Azure.Core" Version="1.25.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0-preview.7.22375.6" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0-preview.7.22375.6" />
+    <PackageReference Include="System.Collections.Immutable" Version="7.0.0-preview.7.22375.6" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

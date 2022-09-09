@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <PackageId>Microsoft.Azure.Functions.Worker.ApplicationInsights</PackageId>
     <AssemblyName>Microsoft.Azure.Functions.Worker.ApplicationInsights</AssemblyName>
     <RootNamespace>Microsoft.Azure.Functions.Worker.ApplicationInsights</RootNamespace>
     <MajorProductVersion>2</MajorProductVersion>
-    <VersionSuffix>-preview1</VersionSuffix>
+    <PatchProductVersion>5</PatchProductVersion>
   </PropertyGroup>
 
   <Import Project="..\..\build\Common.props" />
