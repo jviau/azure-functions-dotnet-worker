@@ -6,7 +6,7 @@
     <AssemblyName>Microsoft.Azure.Functions.Worker.ApplicationInsights</AssemblyName>
     <RootNamespace>Microsoft.Azure.Functions.Worker.ApplicationInsights</RootNamespace>
     <MajorProductVersion>2</MajorProductVersion>
-    <PatchProductVersion>5</PatchProductVersion>
+    <PatchProductVersion>8</PatchProductVersion>
   </PropertyGroup>
 
   <Import Project="..\..\build\Common.props" />

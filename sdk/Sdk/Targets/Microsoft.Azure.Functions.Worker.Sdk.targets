@@ -114,7 +114,7 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
             File="$(OutputFile)"
             Lines="$([System.IO.File]::ReadAllText($(_FunctionsWorkerConfigInputFile))
                                   .Replace('$functionExe$', '{WorkerRoot}$(TargetName)')
-                                  .Replace('$functionWorker$', '$(TargetName).dll')
+                                  .Replace('$functionWorker$', '$(TargetName).exe')
                                   .Replace('$enableWorkerIndexing$', '$(FunctionsEnableWorkerIndexing)'))"
         Overwrite="true" />
 

@@ -11,7 +11,6 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <MajorProductVersion>2</MajorProductVersion>
     <PatchProductVersion>1</PatchProductVersion>
-    <VersionSuffix>-preview3</VersionSuffix>
   </PropertyGroup>
 
   <Import Project="..\..\build\Common.props" />
