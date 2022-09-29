@@ -26,3 +26,4 @@ Steps for opting into the preview:
         }
     }
 ```
+- Adding support for overriding the binding property name in function metadata (#1086)
