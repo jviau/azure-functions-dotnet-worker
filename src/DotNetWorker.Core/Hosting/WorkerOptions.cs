@@ -21,5 +21,10 @@ namespace Microsoft.Azure.Functions.Worker
         /// Gets the collection of input converters.
         /// </summary>
         public InputConverterCollection InputConverters { get; } = new InputConverterCollection();
+        
+        /// <summary>
+        /// Gets or sets a value that determines if empty entries should be included in the function trigger message payload.
+        /// </summary>
+        public bool IncludeEmptyEntriesInMessagePayload { get; set; }
     }
 }
